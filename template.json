@@ -43,7 +43,7 @@
      "blobstoreName": {
       "type": "string",
       "metadata": {
-        "description": "The name of the Azure Data Lake Store account to be created and connected to the cluster."
+        "description": "The name of the Azure Blob account to be created to hold initial files."
       }
     },
     "sqlAdminLogin": {
