@@ -51,6 +51,7 @@
     },
     "sqlAdminPassword": {
       "type": "securestring",
+      "defaultValue": "Micr0pwd!@",
       "metadata": {
         "description": "The password can be used to access the SQL database.The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
       }
@@ -196,7 +197,7 @@
        {
          "type": "blobServices/containers",
          "apiVersion": "2019-06-01",
-         "name":"/default/data",
+         "name": "default/data",
          "dependsOn": [
            "[resourceId('Microsoft.Storage/storageAccounts',variables('blobStorageAccount').name)]"
          ],
