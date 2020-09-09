@@ -80,7 +80,8 @@
       "databaseName": "Predictions"
     },
     "managedIdentityName": "[concat(uniqueString(resourceGroup().id),'mi')]",
-    "storageBlobOwner": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b')]"
+    "storageBlobOwner": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b')]",
+    "roleAssignmentName": "[guid(resourceGroup().id)]"
   },
   "resources": [
     {
@@ -134,9 +135,10 @@
       },
       "resources": [
         {
-          "type": "Microsoft.Authorization/roleAssignments",
-          "name": "RoleDefStorage",
-          "apiVersion": "2018-01-01-preview",
+          "type": "Microsoft.Storage/storageAccounts/providers/roleAssignments",
+          "name": "[concat(variables('ADLSGen2StorageName'), '/Microsoft.Authorization/', variables('roleAssignmentName'))]",
+          "apiVersion": "2020-04-01-preview",
+          "dependsOn": ["[resourceId('Microsoft.Storage/storageAccounts', variables('ADLSGen2StorageName'))]"],
           "properties":
           {
             "roleDefinitionId": "[variables('storageBlobOwner')]",
