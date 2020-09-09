@@ -216,6 +216,7 @@
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/',variables('ADLSGen2StorageName'))]",
         "[concat('Microsoft.Network/virtualNetworks/',variables('networkConfig').name)]",
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('managedIdentityName'))]"
         "[extensionResourceId(resourceId('Microsoft.Storage/storageAccounts',variables('ADLSGen2StorageName')),'Microsoft.Authorization/roleAssignments',variables('roleName'))]"
       ],
       "tags": { },
@@ -301,7 +302,8 @@
       "apiVersion": "2015-03-01-preview",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/',variables('ADLSGen2StorageName'))]",
-        "[concat('Microsoft.Network/virtualNetworks/',variables('networkConfig').name)]"
+        "[concat('Microsoft.Network/virtualNetworks/',variables('networkConfig').name)]",
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('managedIdentityName'))]"
       ],
       "tags": { },
       "properties": {
