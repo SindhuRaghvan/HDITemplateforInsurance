@@ -196,7 +196,7 @@
        {
          "type": "blobServices/containers",
          "apiVersion": "2019-06-01",
-         "name":"[concat(variables('blobStorageAccount').name, '/default/data')]",
+         "name":"/default/data",
          "dependsOn": [
            "[resourceId('Microsoft.Storage/storageAccounts',variables('blobStorageAccount').name)]"
          ],
