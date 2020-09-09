@@ -405,10 +405,10 @@
               "apiVersion": "2019-06-01-preview",
               "name":"[variables('sqlDatabase').databaseName]",
               "location":"[resourceGroup().location]",
+              "dependsOn": "[resourceId('Microsoft.Sql/servers', variables('sqlDatabase').serverName)]",
               "properties": {
                 "createMode": "Default"
-              },
-              "dependsOn": "[resourceId('Microsoft.Sql/servers', variables('sqlDatabase').serverName)]"
+              }
             }
         ]
     }
