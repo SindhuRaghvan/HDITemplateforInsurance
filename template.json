@@ -391,7 +391,7 @@
                 "type": "firewallRules",
                 "apiVersion": "2015-05-01-preview",
                 "dependsOn": [
-                    "[resourceId('Microsoft.Sql/servers', 'sqlServer1')]"
+                    "[resourceId('Microsoft.Sql/servers', variables('sqlDatabase').serverName)]"
                 ],
                 "location": "[resourceGroup().location]",
                 "name": "AllowAllWindowsAzureIps",
@@ -408,7 +408,7 @@
               "properties": {
                 "createMode": "Default"
               },
-              "dependsOn": "[variables('sqlDatabase').serverName]"
+              "dependsOn": "[resourceId('Microsoft.Sql/servers', variables('sqlDatabase').serverName)]"
             }
         ]
     }
