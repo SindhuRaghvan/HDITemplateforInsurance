@@ -207,7 +207,7 @@
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/',variables('ADLSGen2StorageName'))]",
         "[concat('Microsoft.Network/virtualNetworks/',variables('networkConfig').name)]",
-        "[extensionResourceId(resourceId('Microsoft.Storage/storageAccounts',variables('ADLSGen2StorageName')),'Microsoft.Storage/storageAccounts/providers/roleAssignments',variables('roleName'))]"
+        "[extensionResourceId(resourceId('Microsoft.Storage/storageAccounts',variables('ADLSGen2StorageName')),'Microsoft.Authorization/roleAssignments',variables('roleName'))]"
       ],
       "tags": { },
       "properties": {
