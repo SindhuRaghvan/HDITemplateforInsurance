@@ -150,7 +150,7 @@
     {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2019-06-01",
-            "name": "data",
+            "name": "[concat(variables('ADLSGen2StorageName'), '/default/data')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', variables('ADLSGen2StorageName'))]"
             ],
@@ -161,7 +161,7 @@
      {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2019-06-01",
-            "name": "models",
+            "name": "[concat(variables('ADLSGen2StorageName'), '/default/models')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', variables('ADLSGen2StorageName'))]"
             ],
@@ -172,7 +172,7 @@
     {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2019-06-01",
-            "name": "predictions",
+            "name": "[concat(variables('ADLSGen2StorageName'), '/default/predictions')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts', variables('ADLSGen2StorageName'))]"
             ],
