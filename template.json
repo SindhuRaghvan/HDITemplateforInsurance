@@ -23,6 +23,7 @@
     },
     "clusterLoginPassword": {
       "type": "securestring",
+      "defaultValue": "Micr0pwd!@",
       "metadata": {
         "description": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
       }
@@ -36,14 +37,9 @@
     },
     "sshPassword": {
       "type": "securestring",
+      "defaultValue": "Micr0pwd!@",
       "metadata": {
         "description": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
-      }
-    },
-     "blobstoreName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the Azure Blob account to be created to hold initial files."
       }
     },
     "sqlAdminLogin": {
@@ -55,18 +51,17 @@
     },
     "sqlAdminPassword": {
       "type": "securestring",
-      "defaultValue": "password123",
       "metadata": {
-        "description": "The password can be used to access the SQL database."
+        "description": "The password can be used to access the SQL database.The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
       }
     }
   },
   "variables": {
     "blobStorageAccount": {
-      "name": "[parameters('blobstoreName')]",
+      "name": "[concat(uniqueString(resourceGroup().name),'blob')]",
       "type": "Standad_LRS"
     },
-    "ADLSGen2StorageName": "[concat('adlsgen2', uniqueString(resourceGroup().id))]",
+    "ADLSGen2StorageName": "adlsclusterstore992020",
     "networkConfig": {
       "name": "[uniqueString(resourceGroup().id)]",
       "addressPrefix": "10.0.0.0/16"
@@ -196,7 +191,20 @@
        "tier": "Standard"
      },
      "kind": "StorageV2",
-     "location":"[resourceGroup().location]"    
+     "location":"[resourceGroup().location]",
+     "resources": [
+       {
+         "type": "blobServices/containers",
+         "apiVersion": "2019-06-01",
+         "name":"[concat(variables('blobStorageAccount').name, '/default/data')]",
+         "dependsOn": [
+           "[resourceId('Microsoft.Storage/storageAccounts',variables('blobStorageAccount').name)]"
+         ],
+         "properties": {
+           "publicAccess": "Container"
+         }
+       }
+     ]    
    },
     
     {
@@ -231,7 +239,7 @@
             {
               "name":"[concat(variables('ADLSGen2StorageName'), '.dfs.core.windows.net')]",
               "isDefault": true,
-              "fileSystem": "[concat(parameters('sparkClusterName'), '-2019-01-23t20-00-14-186z')]",
+              "fileSystem": "[concat(parameters('sparkClusterName'), utcNow())]",
               "resourceID": "[concat(resourceGroup().id, '/providers/Microsoft.Storage/storageAccounts/', variables('ADLSGen2StorageName'))]",
               "msiResourceId": "[concat(resourceGroup().id, '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', variables('managedIdentityName'))]"
             }
@@ -314,7 +322,7 @@
             {
               "name": "[replace(replace(concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('ADLSGen2StorageName')), '2016-01-01').primaryEndpoints.blob),'https:',''),'/','')]",
               "isDefault": true,
-              "fileSystem": "[concat(parameters('sparkClusterName'), '-2019-01-23t20-00-14-186z')]",
+              "fileSystem": "[concat(parameters('kafkaClusterName'), utcNow())]",
               "resourceID": "[concat(resourceGroup().id, '/providers/Microsoft.Storage/storageAccounts/', variables('ADLSGen2StorageName'))]",
               "msiResourceId": "[concat(resourceGroup().id, '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', variables('managedIdentityName'))]"
             }
@@ -439,6 +447,10 @@
     "vnet": {
       "type": "object",
       "value": "[reference(resourceId('Microsoft.Network/virtualNetworks',variables('networkConfig').name))]"
+    },
+    "BlobStorage": {
+      "type": "object",
+      "value": "[reference(resourceId('Microsoft.Storage/storageAccounts',variables('blobStorageAccount').name))]"
     }
   }
 }
