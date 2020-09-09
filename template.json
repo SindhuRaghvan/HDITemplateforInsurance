@@ -81,7 +81,7 @@
     },
     "managedIdentityName": "[concat(uniqueString(resourceGroup().id),'mi')]",
     "storageBlobOwner": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b')]",
-    "roleAssignmentName": "[guid(resourceGroup().id)]"
+    "roleAssignmentName": "[concat(variables('ADLSGen2StorageName'), '/Microsoft.Authorization/',guid(resourceGroup().id))]"
   },
   "resources": [
     {
@@ -131,12 +131,16 @@
         "tier": "Standard"
       },
       "properties": {
-        "isHnsEnabled": true
+        "isHnsEnabled": true,
+        "accessTier": "Hot",
+        "networkAcls": {
+          "bypass": "AzureServices"
+        }
       },
       "resources": [
         {
           "type": "Microsoft.Storage/storageAccounts/providers/roleAssignments",
-          "name": "[concat(variables('ADLSGen2StorageName'), '/Microsoft.Authorization/', variables('roleAssignmentName'))]",
+          "name": "[variables('roleAssignmentName')]",
           "apiVersion": "2020-04-01-preview",
           "dependsOn": ["[resourceId('Microsoft.Storage/storageAccounts', variables('ADLSGen2StorageName'))]"],
           "properties":
@@ -182,17 +186,17 @@
               "publicAccess": "Container"
             }
     },
-    {
-      "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('blobStorageAccount').name]",
-      "location": "[resourceGroup().location]",
-      "apiVersion": "2019-06-01",
-      "sku": {
-          "name": "[variables('blobStorageAccount').type]"
-      },
-      "kind": "Storage", 
-      "properties": {}
-    },
+   {
+     "type": "Microsoft.Storage/storageAccounts",
+     "apiVersion": "2019-06-01",
+     "name":"[variables('blobStorageAccount').name]",
+     "sku": {
+       "name": "Standard_LRS",
+       "tier": "Standard"
+     },
+     "kind": "StorageV2",
+     "location":"[resourceGroup().location]"    
+   },
     
     {
       "name": "[parameters('sparkClusterName')]",
@@ -201,7 +205,8 @@
       "apiVersion": "2018-06-01-preview",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/',variables('ADLSGen2StorageName'))]",
-        "[concat('Microsoft.Network/virtualNetworks/',variables('networkConfig').name)]"
+        "[concat('Microsoft.Network/virtualNetworks/',variables('networkConfig').name)]",
+        "[resourceId('Microsoft.Storage/storageAccounts/providers/roleAssignments', variables('roleAssignmentName'))]"
       ],
       "tags": { },
       "properties": {
