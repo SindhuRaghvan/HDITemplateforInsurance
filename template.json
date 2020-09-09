@@ -388,6 +388,19 @@
         },
         "resources": [
             {
+                "type": "firewallRules",
+                "apiVersion": "2015-05-01-preview",
+                "dependsOn": [
+                    "[resourceId('Microsoft.Sql/servers', variables('sqlDatabase').serverName)]"
+                ],
+                "location": "[resourceGroup().location]",
+                "name": "AllowAllWindowsAzureIps",
+                "properties": {
+                    "startIpAddress": "0.0.0.0",
+                    "endIpAddress": "0.0.0.0"
+                }
+            },
+            {
               "type": "databases",
               "apiVersion": "2019-06-01-preview",
               "name":"[variables('sqlDatabase').databaseName]",
@@ -396,7 +409,7 @@
                 "name": "Standard",
                 "tier": "Standard"
               },
-              "dependsOn": "[resourceId('Microsoft.Sql/servers', concat(variables('sqlDatabase').serverName))]",
+              "dependsOn": [ "[resourceId('Microsoft.Sql/servers', variables('sqlDatabase').serverName)]"],
               "properties": {
                 "createMode": "Default"
               }
