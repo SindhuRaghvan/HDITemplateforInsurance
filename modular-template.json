@@ -116,8 +116,8 @@
             "dependsOn": [
                 "StorageTemplate",
                 "ClusterTemplate",
-                "[variables('blobStorageName')]",
-                "[variables('ADLSGen2StorageName')]"
+                "[resourceId('Microsoft.Storage/storageAccounts',variables('blobStorageName'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts',variables('ADLSGen2StorageName'))]"
             ],
             "properties": {
                 "mode": "Incremental",
