@@ -124,9 +124,9 @@
                     "Spark_userName": { "value": "[parameters('clusterLoginUserName')]" },
                     "SparkCluster_password": { "value": "[parameters('clusterLoginPassword')]" },
                     "AzureDataLakeStorageName": { "value": "[variables('ADLSGen2StorageName')]" },
-                    "blobStorageName": "[reference('StorageTemplate', '2019-10-01').outputs.BlobStorename.value]"
-                    //"ADL_accountkey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('ADLSGen2StorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
-                    //"Blob_accountkey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', reference('StorageTemplate', '2019-10-01').outputs.BlobStorename.value), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
+                    "blobStorageName": "[reference('StorageTemplate', '2019-10-01').outputs.BlobStorename.value]",
+                    "ADL_accountkey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('ADLSGen2StorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
+                    "Blob_accountkey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', reference('StorageTemplate', '2019-10-01').outputs.BlobStorename.value), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
                 }
 
             }
