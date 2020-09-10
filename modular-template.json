@@ -60,7 +60,7 @@
     "variables": {
         "ADLSGen2StorageName": "adlsclusterstore992020",
         "managedIdentityName": "[concat(uniqueString(resourceGroup().id),'mi')]",
-        "blobStorageName": "[concat(uniqueString(resourceGroup().name),'blob')]"
+        "blobStorageName": "ejt3zbd5b6szsblob"
 
     },
     "resources": [
