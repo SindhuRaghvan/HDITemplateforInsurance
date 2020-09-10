@@ -218,7 +218,8 @@
         "[concat('Microsoft.Storage/storageAccounts/',variables('ADLSGen2StorageName'))]",
         "[concat('Microsoft.Network/virtualNetworks/',variables('networkConfig').name)]",
         "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('managedIdentityName'))]",
-        "[extensionResourceId(resourceId('Microsoft.Storage/storageAccounts',variables('ADLSGen2StorageName')),'Microsoft.Authorization/roleAssignments',variables('roleName'))]"
+        //"[extensionResourceId(resourceId('Microsoft.Storage/storageAccounts',variables('ADLSGen2StorageName')),'Microsoft.Authorization/roleAssignments',variables('roleName'))]"
+        "[variables('roleAssignmentName')]"
       ],
       "tags": { },
       "properties": { 

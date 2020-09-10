@@ -226,7 +226,7 @@
             "name": "ClusterTemplate",
             "dependsOn": [
                 "[resourceId('Microsoft.Storage/storageAccounts',variables('ADLSGen2StorageName'))]",
-                "[extensionResourceId(resourceId('Microsoft.Storage/storageAccounts',variables('ADLSGen2StorageName')),'Microsoft.Storage/storageAccounts/providers/roleAssignments',variables('roleName'))]"
+                "[variables('roleAssignmentName')]"
             ],
             "properties": {
                 "mode": "Incremental",
