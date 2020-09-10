@@ -2,18 +2,12 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-      "ADL_accountkey": {
-        "type": "securestring"
-      },
       "SparkCluster_password": {
         "type": "securestring"
       },
       "Spark_userName": {
         "defaultValue": "admin",
         "type": "String"
-      },
-      "Blob_accountkey": {
-        "type": "securestring"
       },
       "AzureDataLakeStorageName": {
           "type": "string"
@@ -29,8 +23,11 @@
       "factoryName": "[concat('adf-', uniqueString(resourceGroup().id))]",
       "factoryId": "[concat('Microsoft.DataFactory/factories/', variables('factoryName'))]",
       "clusterUrl": "[concat('https://', parameters('sparkClusterName'), '.azurehdinsight.net')]",
+      "ADL_accountkey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('AzureDataLakeStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
       "adlsgen2url": "[concat('https://', parameters('AzureDataLakeStorageName'), '.dfs.core.windows.net')]",
-      "Blob_connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('blobStorageName'), ';AccountKey=', parameters('Blob_accountkey'), ';EndpointSuffix=core.windows.net')]"
+      "Blob_accountkey" : "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('blobStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
+      "Blob_connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('blobStorageName'), ';AccountKey=', variables('Blob_accountkey'), ';EndpointSuffix=core.windows.net')]"
+      
     },
     "resources": [
       {
@@ -68,7 +65,7 @@
             "url": "[variables('adlsgen2url')]",
             "accountKey": {
               "type": "SecureString",
-              "value": "[parameters('ADL_accountkey')]"
+              "value": "[variables('ADL_accountkey')]"
             }
           }
         }
