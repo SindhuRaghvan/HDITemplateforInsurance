@@ -224,6 +224,10 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-10-01",
             "name": "ClusterTemplate",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts',variables('ADLSGen2StorageName'))]",
+                "[extensionResourceId(resourceId('Microsoft.Storage/storageAccounts',variables('ADLSGen2StorageName')),'Microsoft.Storage/storageAccounts/providers/roleAssignments',variables('roleName'))]"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink":{
