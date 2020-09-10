@@ -90,6 +90,17 @@
     {
       "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
       "apiVersion": "2019-06-01",
+      "name": "[concat(parameters('ADLSGen2StorageName'), '/default/adfjobs')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('ADLSGen2StorageName'))]"
+      ],
+      "properties": {
+        "publicAccess": "Container"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2019-06-01",
       "name": "[concat(parameters('ADLSGen2StorageName'), '/default/models')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('ADLSGen2StorageName'))]"
@@ -179,6 +190,9 @@
 
   ],
   "outputs": {
-
+      "BlobStorename": {
+        "type": "string",
+        "value": "[variables('blobStorageAccount').name]"
+      }
   }
 }
