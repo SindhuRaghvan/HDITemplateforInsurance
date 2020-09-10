@@ -62,25 +62,25 @@
         "managedIdentityName": "[concat(uniqueString(resourceGroup().id),'mi')]"
     },
     "resources": [
-    
-    {
-        "type": "Microsoft.Resources/deployments",
-        "apiVersion": "2019-10-01",
-        "name":"StorageTemplate",
-        "properties": {
-            "mode": "Incremental",
-            "templateLink": {
-                "uri": "https://raw.githubusercontent.com/SindhuRaghvan/HDITemplateforInsurance/master/storage-template.json"
-            },
-            "parameters": {
-                 "ADLSGen2StorageName": {"value":"[variables('ADLSGen2StorageName')]"},
-                 "managedIdentityName":{"value": "[variables('managedIdentityName')]"},
-                 "sqlAdminLogin": {"value": "[parameters('sqlAdminLogin')]"},
-                 "sqlAdminPassword": {"value": "[parameters('sqlAdminPassword')]"}
+
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "StorageTemplate",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/SindhuRaghvan/HDITemplateforInsurance/master/storage-template.json"
+                },
+                "parameters": {
+                    "ADLSGen2StorageName": { "value": "[variables('ADLSGen2StorageName')]" },
+                    "managedIdentityName": { "value": "[variables('managedIdentityName')]" },
+                    "sqlAdminLogin": { "value": "[parameters('sqlAdminLogin')]" },
+                    "sqlAdminPassword": { "value": "[parameters('sqlAdminPassword')]" }
+                }
             }
-        }
-    },
-         
+        },
+
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-10-01",
@@ -90,23 +90,23 @@
             ],
             "properties": {
                 "mode": "Incremental",
-                "templateLink":{
+                "templateLink": {
                     "uri": "https://raw.githubusercontent.com/SindhuRaghvan/HDITemplateforInsurance/master/cluster-template.json"
                 },
                 "parameters": {
-                    "sparkClusterName": {"value": "[parameters('sparkClusterName')]"},
-                    "kafkaClusterName":{"value": "[parameters('kafkaClusterName')]"},
-                    "clusterLoginUserName": {"value":"[parameters('clusterLoginUserName')]"},
-                    "clusterLoginPassword": {"value":"[parameters('clusterLoginPassword')]"},
-                    "sshUserName": {"value":"[parameters('sshUserName')]"},
-                    "sshPassword":{"value": "[parameters('sshPassword')]"},
-                    "ADLSGen2StorageName": {"value":"[variables('ADLSGen2StorageName')]"},
-                    "managedIdentityName":{"value": "[variables('managedIdentityName')]"}
+                    "sparkClusterName": { "value": "[parameters('sparkClusterName')]" },
+                    "kafkaClusterName": { "value": "[parameters('kafkaClusterName')]" },
+                    "clusterLoginUserName": { "value": "[parameters('clusterLoginUserName')]" },
+                    "clusterLoginPassword": { "value": "[parameters('clusterLoginPassword')]" },
+                    "sshUserName": { "value": "[parameters('sshUserName')]" },
+                    "sshPassword": { "value": "[parameters('sshPassword')]" },
+                    "ADLSGen2StorageName": { "value": "[variables('ADLSGen2StorageName')]" },
+                    "managedIdentityName": { "value": "[variables('managedIdentityName')]" }
                 }
 
-        }
+            }
         },
-              {
+        {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-10-01",
             "name": "ADFTemplate",
@@ -116,20 +116,20 @@
             ],
             "properties": {
                 "mode": "Incremental",
-                "templateLink":{
+                "templateLink": {
                     "uri": "https://raw.githubusercontent.com/SindhuRaghvan/HDITemplateforInsurance/master/adftemplate.json"
                 },
                 "parameters": {
-                    "sparkClusterName": {"value": "[parameters('sparkClusterName')]"},
-                    "Spark_userName": {"value":"[parameters('clusterLoginUserName')]"},
-                    "SparkCluster_password": {"value":"[parameters('clusterLoginPassword')]"},
-                    "AzureDataLakeStorageName": {"value":"[variables('ADLSGen2StorageName')]"},
+                    "sparkClusterName": { "value": "[parameters('sparkClusterName')]" },
+                    "Spark_userName": { "value": "[parameters('clusterLoginUserName')]" },
+                    "SparkCluster_password": { "value": "[parameters('clusterLoginPassword')]" },
+                    "AzureDataLakeStorageName": { "value": "[variables('ADLSGen2StorageName')]" },
                     "blobStorageName": "[reference('StorageTemplate', '2019-10-01').outputs.BlobStorename.value]",
-                    "ADL_accountkey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('ADLSGen2StorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
-                    "Blob_accountkey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', reference('StorageTemplate', '2019-10-01').outputs.BlobStorename.value), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
+                    //"ADL_accountkey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('ADLSGen2StorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
+                    //"Blob_accountkey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', reference('StorageTemplate', '2019-10-01').outputs.BlobStorename.value), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
                 }
 
-        }
+            }
         }
 
 
