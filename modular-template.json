@@ -59,7 +59,9 @@
     },
     "variables": {
         "ADLSGen2StorageName": "adlsclusterstore992020",
-        "managedIdentityName": "[concat(uniqueString(resourceGroup().id),'mi')]"
+        "managedIdentityName": "[concat(uniqueString(resourceGroup().id),'mi')]",
+        "blobStorageName": "[concat(uniqueString(resourceGroup().name),'blob')]"
+
     },
     "resources": [
 
@@ -75,6 +77,7 @@
                 "parameters": {
                     "ADLSGen2StorageName": { "value": "[variables('ADLSGen2StorageName')]" },
                     "managedIdentityName": { "value": "[variables('managedIdentityName')]" },
+                    "blobStorageName": { "value": "[variables('blobStorageName')]" },
                     "sqlAdminLogin": { "value": "[parameters('sqlAdminLogin')]" },
                     "sqlAdminPassword": { "value": "[parameters('sqlAdminPassword')]" }
                 }
@@ -115,7 +118,7 @@
                 "ClusterTemplate"
             ],
             "properties": {
-                "mode": "Incremental",  
+                "mode": "Incremental",
                 "templateLink": {
                     "uri": "https://raw.githubusercontent.com/SindhuRaghvan/HDITemplateforInsurance/master/adftemplate.json"
                 },
@@ -124,9 +127,9 @@
                     "Spark_userName": { "value": "[parameters('clusterLoginUserName')]" },
                     "SparkCluster_password": { "value": "[parameters('clusterLoginPassword')]" },
                     "AzureDataLakeStorageName": { "value": "[variables('ADLSGen2StorageName')]" },
-                    "blobStorageName": { "value" :"[reference('StorageTemplate', '2019-10-01', 'Full').outputs.BlobStorename.value]" },
-                    "ADL_accountkey": {"value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('ADLSGen2StorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"},
-                    "Blob_accountkey":{"value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', reference('StorageTemplate', '2019-10-01', 'Full').outputs.BlobStorename.value), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"}
+                    "blobStorageName": { "value": "[variables('blobStorageName')]" },
+                    "ADL_accountkey": { "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('ADLSGen2StorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]" },
+                    "Blob_accountkey": { "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('blobStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]" }
                 }
 
             }
