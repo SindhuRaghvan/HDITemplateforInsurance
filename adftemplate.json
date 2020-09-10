@@ -92,7 +92,7 @@
               "value": "[parameters('SparkCluster_password')]"
             },
             "isEspEnabled": false,
-            "fileSystem": "[concat(parameters('sparkClusterName'), '-2019-01-23t20-00-14-186z')]",
+            "fileSystem": "adflogs",
             "linkedServiceName": {
               "referenceName": "AzureDataLakeStorage",
               "type": "LinkedServiceReference"
@@ -107,7 +107,7 @@
         "properties": {
           "activities": [
             {
-              "name": "Copy Data",
+              "name": "CopyData",
               "type": "Copy",
               "dependsOn": [],
               "policy": {
@@ -171,7 +171,7 @@
               "type": "HDInsightSpark",
               "dependsOn": [
                 {
-                  "activity": "Copy data",
+                  "activity": "CopyData",
                   "dependencyConditions": [
                     "Succeeded"
                   ]
