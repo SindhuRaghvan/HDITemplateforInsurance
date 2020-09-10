@@ -115,7 +115,9 @@
             "name": "ADFTemplate",
             "dependsOn": [
                 "StorageTemplate",
-                "ClusterTemplate"
+                "ClusterTemplate",
+                "[variables('blobStorageName')]",
+                "[variables('ADLSGen2StorageName')]"
             ],
             "properties": {
                 "mode": "Incremental",
