@@ -123,7 +123,7 @@
     {
       "type": "Microsoft.Storage/storageAccounts",
       "apiVersion": "2019-06-01",
-      "name": "[parameters('blobStorageName').name]",
+      "name": "[parameters('blobStorageName')]",
       "sku": {
         "name": "Standard_LRS",
         "tier": "Standard"
