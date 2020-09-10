@@ -221,7 +221,7 @@
         "[extensionResourceId(resourceId('Microsoft.Storage/storageAccounts',variables('ADLSGen2StorageName')),'Microsoft.Authorization/roleAssignments',variables('roleName'))]"
       ],
       "tags": { },
-      "properties": {
+      "properties": { 
         "clusterVersion": "4.0",
         "osType": "Linux",
         "clusterDefinition": {
@@ -393,7 +393,14 @@
             }
           ]
         }
-      }
+      },
+         "identity":{  
+             "type":"UserAssigned",
+            "userAssignedIdentities": {
+              "[concat(resourceGroup().id, '/providers/Microsoft.ManagedIdentity/userAssignedIdentities/', variables('managedIdentityName'))]": {
+              }
+            }
+    }
     },
     {
         "name": "[variables('sqlDatabase').serverName]",
