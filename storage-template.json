@@ -136,7 +136,7 @@
           "apiVersion": "2019-06-01",
           "name": "default/data",
           "dependsOn": [
-            "[resourceId('Microsoft.Storage/storageAccounts',variables('blobStorageAccount').name)]"
+            "[resourceId('Microsoft.Storage/storageAccounts',parameters('blobStorageName'))]"
           ],
           "properties": {
             "publicAccess": "Container"
