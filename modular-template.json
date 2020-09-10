@@ -474,22 +474,7 @@
       
     ],
     "outputs": {
-      "kafkaCluster": {
-        "type": "object",
-        "value": "[reference(resourceId('Microsoft.HDInsight/clusters',parameters('kafkaClusterName')))]"
-      },
-      "sparkCluster": {
-        "type": "object",
-        "value": "[reference(resourceId('Microsoft.HDInsight/clusters',parameters('sparkClusterName')))]"
-      },
-      "vnet": {
-        "type": "object",
-        "value": "[reference(resourceId('Microsoft.Network/virtualNetworks',variables('networkConfig').name))]"
-      },
-      "BlobStorage": {
-        "type": "object",
-        "value": "[reference(resourceId('Microsoft.Storage/storageAccounts',variables('blobStorageAccount').name))]"
-      }
+      
     }
   }
   
