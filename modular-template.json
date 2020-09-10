@@ -213,7 +213,7 @@
          "apiVersion": "2019-10-01",
          "name":"ClusterTemplate",
          "dependsOn": [
-           "[extensionResourceId(resourceId('Microsoft.Storage/storageAccounts',variables('ADLSGen2StorageName')),'Microsoft.ManagedIdentity/userAssignedIdentities',variables('managedIdentityName'))]"  
+           "[extensionResourceId(resourceId('Microsoft.Storage/storageAccounts',variables('ADLSGen2StorageName')),'Microsoft.Authorization/roleAssignments',variables('roleName'))]"
          ],
          "properties": {
              "mode": "Complete",
@@ -474,7 +474,7 @@
       
     ],
     "outputs": {
-      
+        
     }
   }
   
