@@ -105,7 +105,33 @@
                 }
 
         }
+        },
+              {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2019-10-01",
+            "name": "ADFTemplate",
+            "dependsOn": [
+                "StorageTemplate",
+                "ClusterTemplate"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink":{
+                    "uri": "https://raw.githubusercontent.com/SindhuRaghvan/HDITemplateforInsurance/master/adftemplate.json"
+                },
+                "parameters": {
+                    "sparkClusterName": {"value": "[parameters('sparkClusterName')]"},
+                    "Spark_userName": {"value":"[parameters('clusterLoginUserName')]"},
+                    "SparkCluster_password": {"value":"[parameters('clusterLoginPassword')]"},
+                    "AzureDataLakeStorageName": {"value":"[variables('ADLSGen2StorageName')]"},
+                    "blobStorageName": "[reference('StorageTemplate').outputs.BlobStorename.value]",
+                    "ADL_accountkey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('ADLSGen2StorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
+                    "Blob_accountkey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', reference('StorageTemplate').outputs.BlobStorename.value), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
+                }
+
         }
+        }
+
 
 
     ],
