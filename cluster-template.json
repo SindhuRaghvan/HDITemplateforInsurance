@@ -42,7 +42,6 @@
           "description": "The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
         }
       },
-      
      "ADLSGen2StorageName": {
          "type": "string"
          },
@@ -59,20 +58,39 @@
       "subnetConfig": {
         "name": "default",
         "addressPrefix": "10.0.0.0/24"
-      },
-      "roleName":"[guid(resourceGroup().id)]"
+      }
     },
     "resources": [
+        {
+            "name": "[variables('networkConfig').name]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2017-06-01",
+            "dependsOn": [],
+            "tags": {},
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('networkConfig').addressPrefix]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('subnetConfig').name]",
+                        "properties": {
+                            "addressPrefix": "[variables('subnetConfig').addressPrefix]"
+                        }
+                    }
+                ]
+            }
+        },
       {
         "name": "[parameters('sparkClusterName')]",
         "type": "Microsoft.HDInsight/clusters",
         "location": "[resourceGroup().location]",
         "apiVersion": "2018-06-01-preview",
         "dependsOn": [
-          "[concat('Microsoft.Storage/storageAccounts/',parameters('ADLSGen2StorageName'))]",
-          "[concat('Microsoft.Network/virtualNetworks/',variables('networkConfig').name)]",
-          "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',parameters('managedIdentityName'))]",
-          "[extensionResourceId(resourceId('Microsoft.Storage/storageAccounts',parameters('ADLSGen2StorageName')),'Microsoft.Authorization/roleAssignments',variables('roleName'))]"
+          "[concat('Microsoft.Network/virtualNetworks/',variables('networkConfig').name)]"
         ],
         "tags": { },
         "properties": { 
@@ -156,10 +174,7 @@
         "location": "[resourceGroup().location]",
         "apiVersion": "2015-03-01-preview",
         "dependsOn": [
-          "[concat('Microsoft.Storage/storageAccounts/',parameters('ADLSGen2StorageName'))]",
-          "[concat('Microsoft.Network/virtualNetworks/',variables('networkConfig').name)]",
-          "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',parameters('managedIdentityName'))]",
-          "[extensionResourceId(resourceId('Microsoft.Storage/storageAccounts',parameters('ADLSGen2StorageName')),'Microsoft.Authorization/roleAssignments',variables('roleName'))]"
+          "[concat('Microsoft.Network/virtualNetworks/',variables('networkConfig').name)]"
         ],
         "tags": { },
         "properties": {
