@@ -112,6 +112,17 @@
     {
       "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
       "apiVersion": "2019-06-01",
+      "name": "[concat(parameters('ADLSGen2StorageName'), '/default/dependency')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('ADLSGen2StorageName'))]"
+      ],
+      "properties": {
+        "publicAccess": "Container"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2019-06-01",
       "name": "[concat(parameters('ADLSGen2StorageName'), '/default/predictions')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts', parameters('ADLSGen2StorageName'))]"
