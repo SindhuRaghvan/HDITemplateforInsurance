@@ -23,11 +23,9 @@
       "factoryName": "[concat('adf-', uniqueString(resourceGroup().id))]",
       "factoryId": "[concat('Microsoft.DataFactory/factories/', variables('factoryName'))]",
       "clusterUrl": "[concat('https://', parameters('sparkClusterName'), '.azurehdinsight.net')]",
-      "ADL_accountkey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('AzureDataLakeStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
-      "adlsgen2url": "[concat('https://', parameters('AzureDataLakeStorageName'), '.dfs.core.windows.net')]",
-      "Blob_accountkey" : "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('blobStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
-      "Blob_connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('blobStorageName'), ';AccountKey=', variables('Blob_accountkey'), ';EndpointSuffix=core.windows.net')]"
-      
+      "adlsgen2url": "[concat('https://', parameters('AzureDataLakeStorageName'), '.dfs.core.windows.net')]"
+      //"Blob_accountkey" : "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('blobStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]",
+      //"Blob_connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('blobStorageName'), ';AccountKey=', variables('Blob_accountkey'), ';EndpointSuffix=core.windows.net')]"
     },
     "resources": [
       {
@@ -48,7 +46,7 @@
           "annotations": [],
           "type": "AzureBlobStorage",
           "typeProperties": {
-            "connectionString": "[variables('Blob_connectionString')]"
+            "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('blobStorageName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('blobStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ';EndpointSuffix=core.windows.net')]"
           }
         },
         "dependsOn": [ "[variables('factoryName')]" ]
@@ -65,7 +63,7 @@
             "url": "[variables('adlsgen2url')]",
             "accountKey": {
               "type": "SecureString",
-              "value": "[variables('ADL_accountkey')]"
+              "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('AzureDataLakeStorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
             }
           }
         }
