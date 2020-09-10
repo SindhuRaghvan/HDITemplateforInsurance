@@ -230,14 +230,14 @@
                     "uri": "https://raw.githubusercontent.com/SindhuRaghvan/HDITemplateforInsurance/master/cluster-template.json"
                 },
                 "parameters": {
-                    "sparkClusterName": "[parameters('sparkClusterName')]",
-                    "kafkaClusterName": "[parameters('kafkaClusterName')]",
-                    "clusterLoginUserName": "[parameters('clusterLoginUserName')]",
-                    "clusterLoginPassword": "[parameters('clusterLoginPassword')]",
-                    "sshUserName": "[parameters('sshUserName')]",
-                    "sshPassword": "[parameters('sshPassword')]",
-                    "ADLSGen2StorageName": "[variables('ADLSGen2StorageName')]",
-                    "managedIdentityName": "[variables('managedIdentityName')]"
+                    "sparkClusterName": {"value": "[parameters('sparkClusterName')]"},
+                    "kafkaClusterName":{"value": "[parameters('kafkaClusterName')]"},
+                    "clusterLoginUserName": {"value":"[parameters('clusterLoginUserName')]"},
+                    "clusterLoginPassword": {"value":"[parameters('clusterLoginPassword')]"},
+                    "sshUserName": {"value":"[parameters('sshUserName')]"},
+                    "sshPassword":{"value": "[parameters('sshPassword')]"},
+                    "ADLSGen2StorageName": {"value":"[variables('ADLSGen2StorageName')]"},
+                    "managedIdentityName":{"value": "[variables('managedIdentityName')]"}
                 }
 
         }
